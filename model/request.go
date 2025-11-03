@@ -4,20 +4,15 @@ import (
 	"io"
 )
 
-type Request interface {
-	ContentType() string
-}
-
 // PostRequest post request interface
 type PostRequest interface {
-	Request
+	ContentType() string
 	// Encode encode request to bytes
 	Encode() []byte
 }
 
 // GetRequest get request interface
 type GetRequest interface {
-	Request
 	// Encode encode request to string
 	Encode() string
 }
@@ -26,6 +21,12 @@ type JSONRequest struct{}
 
 func (r JSONRequest) ContentType() string {
 	return "application/json"
+}
+
+type XMLRequest struct{}
+
+func (r XMLRequest) ContentType() string {
+	return "application/xml"
 }
 
 // UploadField multipart/form-data post request field struct

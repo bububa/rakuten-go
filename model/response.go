@@ -28,9 +28,9 @@ type Metadata struct {
 
 type ResponseError struct {
 	// Error  error code
-	ErrorCode string `json:"error,omitempty"`
+	ErrorCode string `json:"error,omitempty" xml:"-"`
 	// ErrorDescription error description
-	ErrorDescription string `json:"error_description,omitempty"`
+	ErrorDescription string `json:"error_description,omitempty" xml:"-"`
 }
 
 // Error implement Response interface
@@ -41,7 +41,7 @@ func (r ResponseError) Error() string {
 // BaseResponse shared api response data fields
 type BaseResponse struct {
 	ResponseError
-	Metadata *Metadata `json:"_metadata,omitempty"`
+	Metadata *Metadata `json:"_metadata,omitempty" xml:"-"`
 }
 
 // IsError implement Response interface
