@@ -229,7 +229,7 @@ func (c *SDKClient) upload(ctx context.Context, base string, gw string, req mode
 			return err
 		}
 	}
-	mw.Close()
+	_ = mw.Close()
 	reqURL := util.StringsJoin(base, gw)
 	debug.PrintPostMultipartRequest(reqURL, mp, c.debug)
 	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, reqURL, buf)
@@ -271,7 +271,12 @@ func (c *SDKClient) fetch(httpReq *http.Request, resp model.Response) error {
 	}
 	buf := util.NewBuffer()
 	defer util.ReleaseBuffer(buf)
-	err = debug.DecodeJSONHttpResponse(httpResp.Body, buf, resp, c.debug)
+	contentType := strings.ToLower(httpResp.Header.Get("Content-Type"))
+	if strings.Contains(contentType, "xml") {
+		err = debug.DecodeXMLHttpResponse(httpResp.Body, buf, resp, c.debug)
+	} else {
+		err = debug.DecodeJSONHttpResponse(httpResp.Body, buf, resp, c.debug)
+	}
 	if resp.IsError() {
 		return resp
 	} else if err != nil {

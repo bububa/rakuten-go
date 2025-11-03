@@ -3,6 +3,7 @@ package debug
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/xml"
 	"io"
 	"log"
 	"net/http"
@@ -126,6 +127,27 @@ func DecodeJSONHttpResponse(r io.Reader, w *bytes.Buffer, v any, debug bool) err
 	debugBuf := util.NewBuffer()
 	defer util.ReleaseBuffer(debugBuf)
 	if err := json.Indent(debugBuf, w.Bytes(), "", "\t"); err != nil {
+		return err
+	}
+
+	log.Println(util.StringsJoin("[TIKTOK] [RESP] http response body:\n", debugBuf.String()))
+	return nil
+}
+
+// DecodeXMLHttpResponse decode json response with debug
+func DecodeXMLHttpResponse(r io.Reader, w *bytes.Buffer, v any, debug bool) error {
+	tee := io.TeeReader(r, w)
+	if err := xml.NewDecoder(tee).Decode(v); err != nil {
+		return err
+	}
+	if !debug {
+		return nil
+	}
+	debugBuf := util.NewBuffer()
+	defer util.ReleaseBuffer(debugBuf)
+	enc := xml.NewEncoder(debugBuf)
+	enc.Indent("", "\t")
+	if err := enc.Encode(v); err != nil {
 		return err
 	}
 
