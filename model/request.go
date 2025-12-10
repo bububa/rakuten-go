@@ -6,7 +6,7 @@ import (
 
 // PostRequest post request interface
 type PostRequest interface {
-	ContentType() string
+	RequestWithContentType
 	// Encode encode request to bytes
 	Encode() []byte
 }
@@ -15,6 +15,10 @@ type PostRequest interface {
 type GetRequest interface {
 	// Encode encode request to string
 	Encode() string
+}
+
+type RequestWithContentType interface {
+	ContentType() string
 }
 
 type JSONRequest struct{}

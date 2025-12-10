@@ -17,7 +17,7 @@ func PrintError(err error, debug bool) {
 	if !debug {
 		return
 	}
-	log.Println("[TIKTOK] [ERROR]", err)
+	log.Println("[Rakuten] [ERROR]", err)
 }
 
 // PrintStringResponse print string response with debug
@@ -25,7 +25,7 @@ func PrintStringResponse(str string, debug bool) {
 	if !debug {
 		return
 	}
-	log.Println("[TIKTOK] [RESP]", str)
+	log.Println("[Rakuten] [RESP]", str)
 }
 
 // PrintGetRequest print get request with debug
@@ -33,7 +33,7 @@ func PrintGetRequest(url string, debug bool) {
 	if !debug {
 		return
 	}
-	log.Println("[TIKTOK] [REQ] GET", url)
+	log.Println("[Rakuten] [REQ] GET", url)
 }
 
 // PrintPostJSONRequest print json request with debug
@@ -41,7 +41,7 @@ func PrintPostJSONRequest(url string, body []byte, debug bool) {
 	if !debug {
 		return
 	}
-	const format = "[TIKTOK] [REQ] JSON POST %s\n" +
+	const format = "[Rakuten] [REQ] JSON POST %s\n" +
 		"http request body:\n%s\n"
 
 	buf := util.NewBuffer()
@@ -55,7 +55,7 @@ func PrintPostFormRequest(url string, body string, debug bool) {
 	if !debug {
 		return
 	}
-	const format = "[TIKTOK] [REQ] FORM POST %s\n" +
+	const format = "[Rakuten] [REQ] FORM POST %s\n" +
 		"http request body:\n%s\n"
 
 	log.Printf(format, url, body)
@@ -67,7 +67,7 @@ func PrintJSONRequest(method string, url string, header http.Header, body []byte
 		return
 	}
 
-	const format = "[TIKTOK] [REQ] JSON %s %s\n" +
+	const format = "[Rakuten] [REQ] JSON %s %s\n" +
 		"http request header:\n%s\n" +
 		"http request body:\n%s\n"
 
@@ -88,7 +88,7 @@ func PrintFormRequest(method string, url string, header http.Header, body []byte
 		return
 	}
 
-	const format = "[TIKTOK] [REQ] FORM %s %s\n" +
+	const format = "[Rakuten] [REQ] FORM %s %s\n" +
 		"http request header:\n%s\n" +
 		"http request body:\n%s\n"
 
@@ -108,7 +108,7 @@ func PrintPostMultipartRequest(url string, mp map[string]string, debug bool) {
 	if !debug {
 		return
 	}
-	const format = "[TIKTOK] [REQ] multipart/form-data POST %s\n" +
+	const format = "[Rakuten] [REQ] multipart/form-data POST %s\n" +
 		"http request body:\n%s\n"
 
 	bs, _ := json.MarshalIndent(mp, "", "\t")
@@ -130,7 +130,7 @@ func DecodeJSONHttpResponse(r io.Reader, w *bytes.Buffer, v any, debug bool) err
 		return err
 	}
 
-	log.Println(util.StringsJoin("[TIKTOK] [RESP] http response body:\n", debugBuf.String()))
+	log.Println(util.StringsJoin("[Rakuten] [RESP] http response body:\n", debugBuf.String()))
 	return nil
 }
 
@@ -151,6 +151,6 @@ func DecodeXMLHttpResponse(r io.Reader, w *bytes.Buffer, v any, debug bool) erro
 		return err
 	}
 
-	log.Println(util.StringsJoin("[TIKTOK] [RESP] http response body:\n", debugBuf.String()))
+	log.Println(util.StringsJoin("[Rakuten] [RESP] http response body:\n", debugBuf.String()))
 	return nil
 }

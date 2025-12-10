@@ -1,4 +1,4 @@
-package core
+package advertising
 
 const (
 	// BaseURL 默认APIgateway

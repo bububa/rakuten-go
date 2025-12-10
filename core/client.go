@@ -3,7 +3,6 @@ package core
 import (
 	"bytes"
 	"context"
-	"encoding/base64"
 	"errors"
 	"io"
 	"mime/multipart"
@@ -13,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/bububa/rakuten-go/core/internal/debug"
+	"github.com/bububa/rakuten-go/internal/debug"
 	"github.com/bububa/rakuten-go/model"
 	"github.com/bububa/rakuten-go/util"
 )
@@ -42,6 +41,7 @@ type SDKClient struct {
 	client  *http.Client
 	appID   string
 	secret  string
+	baseURL string
 	preReqs []PreRequest
 	debug   bool
 }
@@ -81,13 +81,8 @@ func (c *SDKClient) AddPreRequests(reqs ...PreRequest) {
 	c.preReqs = append(c.preReqs, reqs...)
 }
 
-func (c *SDKClient) TokenKey() string {
-	buf := util.NewBuffer()
-	defer util.ReleaseBuffer(buf)
-	buf.WriteString(c.appID)
-	buf.WriteByte(':')
-	buf.WriteString(c.secret)
-	return base64.StdEncoding.EncodeToString(buf.Bytes())
+func (c *SDKClient) SetBaseURL(baseURL string) {
+	c.baseURL = baseURL
 }
 
 // Copy 复制SDKClient
@@ -97,33 +92,34 @@ func (c *SDKClient) Copy() *SDKClient {
 		secret:  c.secret,
 		debug:   c.debug,
 		client:  c.client,
+		baseURL: c.baseURL,
 		preReqs: c.preReqs,
 	}
 }
 
 // Post post api
 func (c *SDKClient) Post(ctx context.Context, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
-	return c.post(ctx, BaseURL, gw, req, resp, accessToken)
+	return c.post(ctx, c.baseURL, gw, req, resp, accessToken)
 }
 
 // Get get api
 func (c *SDKClient) Get(ctx context.Context, gw string, req model.GetRequest, resp model.Response, accessToken string) error {
-	return c.get(ctx, BaseURL, gw, req, resp, accessToken)
+	return c.get(ctx, c.baseURL, gw, req, resp, accessToken)
 }
 
 // Upload multipart/form-data post
 func (c *SDKClient) Upload(ctx context.Context, gw string, req model.UploadRequest, resp model.Response, accessToken string) error {
-	return c.upload(ctx, BaseURL, gw, req, resp, accessToken)
+	return c.upload(ctx, c.baseURL, gw, req, resp, accessToken)
 }
 
 // Put post api
 func (c *SDKClient) Put(ctx context.Context, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
-	return c.put(ctx, BaseURL, gw, req, resp, accessToken)
+	return c.put(ctx, c.baseURL, gw, req, resp, accessToken)
 }
 
 // Delete post api
 func (c *SDKClient) Delete(ctx context.Context, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
-	return c.delete(ctx, BaseURL, gw, req, resp, accessToken)
+	return c.delete(ctx, c.baseURL, gw, req, resp, accessToken)
 }
 
 func (c *SDKClient) post(ctx context.Context, base string, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
@@ -189,6 +185,9 @@ func (c *SDKClient) get(ctx context.Context, base string, gw string, req model.G
 	httpReq, err := http.NewRequestWithContext(ctx, http.MethodGet, reqURL, nil)
 	if err != nil {
 		return err
+	}
+	if r, ok := req.(model.RequestWithContentType); ok {
+		httpReq.Header.Add("Content-Type", r.ContentType())
 	}
 	if accessToken != "" {
 		httpReq.Header.Add("Authorization", util.StringsJoin("Bearer ", accessToken))

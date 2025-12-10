@@ -4,13 +4,13 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/bububa/rakuten-go/core"
-	"github.com/bububa/rakuten-go/model/postback"
+	"github.com/bububa/rakuten-go/advertising"
+	"github.com/bububa/rakuten-go/advertising/model/postback"
 	"github.com/bububa/rakuten-go/util"
 )
 
 // Update Update an existing postback
-func Update(ctx context.Context, clt *core.SDKClient, req *postback.Postback, accessToken string) error {
+func Update(ctx context.Context, clt *advertising.Client, req *postback.Postback, accessToken string) error {
 	var (
 		r = postback.PostbackRequest{
 			Postback: postback.Postback{

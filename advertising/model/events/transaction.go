@@ -1,7 +1,7 @@
 package events
 
 import (
-	"github.com/bububa/rakuten-go/enum"
+	"github.com/bububa/rakuten-go/advertising/enum"
 	"github.com/bububa/rakuten-go/model"
 )
 
