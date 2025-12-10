@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/url"
 	"reflect"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -13,7 +14,7 @@ import (
 var timeType = reflect.TypeOf(time.Time{})
 
 // Values returns the url.Values encoding of v.
-func Values(v interface{}) (url.Values, error) {
+func Values(v any) (url.Values, error) {
 	values := make(url.Values)
 	val := reflect.ValueOf(v)
 	for val.Kind() == reflect.Ptr {
@@ -166,10 +167,5 @@ func parseTag(tag string) (string, tagOptions) {
 
 // Contains checks whether the tagOptions contains the specified option.
 func (o tagOptions) Contains(option string) bool {
-	for _, s := range o {
-		if s == option {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(o, option)
 }
