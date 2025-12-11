@@ -215,6 +215,8 @@ type ItemSearchResponse struct {
 	PageCount int `json:"pageCount"`
 	// GenreInformation
 	GenreInformation []GenreInformation `json:"GenreInformation,omitempty"`
+	// TagInformation
+	TagInformation []TagGroup `json:"TagInformation,omitempty"`
 }
 
 // Item Item Information
@@ -379,10 +381,4 @@ type GenreInformation struct {
 	// Child genres are displayed as "<child>~ </child>" and are listed inside "<children>~ </children>" tag
 	// If genreId=0 is set, all genres that have genreLevel=1 will be listed as "<children>~ </children>"
 	Children []Genre `json:"children,omitempty"`
-}
-
-// Tag Tag Information
-type Tag struct {
-	// TagIDs tagIds
-	TagIDs []string `json:"tagIds,omitempty"`
 }
