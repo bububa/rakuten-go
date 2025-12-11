@@ -47,9 +47,17 @@ type GenreSearchResponse struct {
 // Genre Genre information
 type Genre struct {
 	// GenreID Genre ID
-	GenreID int64 `json:"genreId,omitempty"`
+	GenreID model.Int64 `json:"genreId,omitempty"`
 	// GenreName Genre name
 	GenreName string `json:"genreName,omitempty"`
 	// GenreLevel Genre level , use 0 to search at the genre root
-	GenreLevel int `json:"genre_level,omitempty"`
+	GenreLevel model.Int `json:"genreLevel,omitempty"`
+	// ItemCount Number of item in this genre
+	ItemCount model.Int64 `json:"itemCount,omitempty"`
+	// ProductCount ジャンルに紐づく商品数
+	ProductCount model.Int64 `json:"productCount,omitempty"`
+	// GenrePageURLPC ジャンルページURL(PC)
+	GenrePageURLPC string `json:"genrePageUrlPC,omitempty"`
+	// GenrePageURLMobile ジャンルページURL(モバイル)
+	GenrePageURLMobile string `json:"genrePageUrlMobile,omitempty"`
 }

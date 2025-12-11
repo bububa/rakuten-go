@@ -26,7 +26,7 @@ type ItemSearchRequest struct {
 	// GenreID Genre ID to specify a genre in Rakuten Ichiba
 	// Please use the Rakuten Ichiba Genre Search API 2 to look up genre names and genre relations.
 	// (*1) One of the following is required: search keyword, genre ID, item code, or shop code.
-	GenreID model.Int64 `json:"genreId,omitempty"`
+	GenreID int64 `json:"genreId,omitempty"`
 	// TagID Tag ID Comma separated (maximum 10 IDs)
 	// ID to specify a tag in Rakuten Ichiba.
 	TagID string `json:"tagId,omitempty"`
@@ -213,6 +213,8 @@ type ItemSearchResponse struct {
 	Page int `json:"page"`
 	// PageCount Total page count Maximum of 100
 	PageCount int `json:"pageCount"`
+	// GenreInformation
+	GenreInformation []GenreInformation `json:"GenreInformation,omitempty"`
 }
 
 // Item Item Information
@@ -362,6 +364,21 @@ type Item struct {
 	// 0: Gift wrap service unavailable
 	// 1: Gift wrap service available
 	GiftFlag int `json:"giftFlag"`
+}
+
+type GenreInformation struct {
+	// Parents Parent genre
+	// Inputted genre Id's parent genres
+	// When genrePath=1 is set, the output will include ancestor genres. Ancester genres are displayed as "<parent>~ </parent>" and are listed inside "<parents>~ </parents>" tag.
+	Parents []Genre `json:"parents,omitempty"`
+	// Current Current genre
+	// Genre ID from the input paramter
+	Current []Genre `json:"current,omitempty"`
+	// Children Child genre
+	// Inputted genre Id's child genres
+	// Child genres are displayed as "<child>~ </child>" and are listed inside "<children>~ </children>" tag
+	// If genreId=0 is set, all genres that have genreLevel=1 will be listed as "<children>~ </children>"
+	Children []Genre `json:"children,omitempty"`
 }
 
 // Tag Tag Information
