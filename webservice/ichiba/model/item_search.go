@@ -26,7 +26,7 @@ type ItemSearchRequest struct {
 	// GenreID Genre ID to specify a genre in Rakuten Ichiba
 	// Please use the Rakuten Ichiba Genre Search API 2 to look up genre names and genre relations.
 	// (*1) One of the following is required: search keyword, genre ID, item code, or shop code.
-	GenreID string `json:"genreId,omitempty"`
+	GenreID model.Int64 `json:"genreId,omitempty"`
 	// TagID Tag ID Comma separated (maximum 10 IDs)
 	// ID to specify a tag in Rakuten Ichiba.
 	TagID string `json:"tagId,omitempty"`
@@ -196,10 +196,6 @@ type ItemSearchResponse struct {
 	model.BaseResponse
 	// Items Item information
 	Items []Item `json:"items,omitempty"`
-	// GenreInformation Genre information
-	GenreInformation []Genre `json:"GenreInformation"`
-	// TagInformation Tag Information
-	TagInformation []Tag `json:"TagInformation"`
 	// Carrier Platform
 	// PC: 0
 	// mobile: 1 (*Japan only)
@@ -290,7 +286,7 @@ type Item struct {
 	// TagIDs Multiple tag IDs are returned as an array
 	TagIds []int `json:"tagIds,omitempty"`
 	// GenreID genre id
-	GenreID string `json:"genreId,omitempty"`
+	GenreID model.Int64 `json:"genreId,omitempty"`
 	// Availability availability flag
 	// 0: Out of stock
 	// 1: Available
@@ -366,12 +362,6 @@ type Item struct {
 	// 0: Gift wrap service unavailable
 	// 1: Gift wrap service available
 	GiftFlag int `json:"giftFlag"`
-}
-
-// Genre Genre information
-type Genre struct {
-	// GenreID Genre ID
-	GenreID string `json:"genreId,omitempty"`
 }
 
 // Tag Tag Information
