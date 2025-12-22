@@ -1,4 +1,4 @@
-package webservice
+package rms
 
 import (
 	"encoding/base64"
@@ -14,9 +14,9 @@ type Client struct {
 func (c *Client) TokenKey() string {
 	buf := util.NewBuffer()
 	defer util.ReleaseBuffer(buf)
-	buf.WriteString(c.AppID())
-	buf.WriteByte(':')
 	buf.WriteString(c.Secret())
+	buf.WriteByte(':')
+	buf.WriteString(c.AppID())
 	return util.StringsJoin("ESA ", base64.StdEncoding.EncodeToString(buf.Bytes()))
 }
 

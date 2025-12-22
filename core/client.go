@@ -134,7 +134,7 @@ func (c *SDKClient) post(ctx context.Context, base string, gw string, req model.
 	}
 	httpReq.Header.Add("Content-Type", req.ContentType())
 	if accessToken != "" {
-		httpReq.Header.Add("Authorization", util.StringsJoin("Bearer ", accessToken))
+		httpReq.Header.Add("Authorization", accessToken)
 	}
 	debug.PrintJSONRequest("POST", reqURL, httpReq.Header, reqBytes, c.debug)
 	return c.fetch(httpReq, resp)
@@ -152,7 +152,7 @@ func (c *SDKClient) put(ctx context.Context, base string, gw string, req model.P
 	}
 	httpReq.Header.Add("Content-Type", req.ContentType())
 	if accessToken != "" {
-		httpReq.Header.Add("Authorization", util.StringsJoin("Bearer ", accessToken))
+		httpReq.Header.Add("Authorization", accessToken)
 	}
 	debug.PrintJSONRequest("PUT", reqURL, httpReq.Header, reqBytes, c.debug)
 	return c.fetch(httpReq, resp)
@@ -170,7 +170,7 @@ func (c *SDKClient) delete(ctx context.Context, base string, gw string, req mode
 	}
 	httpReq.Header.Add("Content-Type", req.ContentType())
 	if accessToken != "" {
-		httpReq.Header.Add("Authorization", util.StringsJoin("Bearer ", accessToken))
+		httpReq.Header.Add("Authorization", accessToken)
 	}
 	debug.PrintJSONRequest("PUT", reqURL, httpReq.Header, reqBytes, c.debug)
 	return c.fetch(httpReq, resp)
@@ -190,7 +190,7 @@ func (c *SDKClient) get(ctx context.Context, base string, gw string, req model.G
 		httpReq.Header.Add("Content-Type", r.ContentType())
 	}
 	if accessToken != "" {
-		httpReq.Header.Add("Authorization", util.StringsJoin("Bearer ", accessToken))
+		httpReq.Header.Add("Authorization", accessToken)
 	}
 	return c.fetch(httpReq, resp)
 }
@@ -237,7 +237,7 @@ func (c *SDKClient) upload(ctx context.Context, base string, gw string, req mode
 	}
 	httpReq.Header.Add("Content-Type", mw.FormDataContentType())
 	if accessToken != "" {
-		httpReq.Header.Add("Authorization", util.StringsJoin("Bearer ", accessToken))
+		httpReq.Header.Add("Authorization", accessToken)
 	}
 
 	return c.fetch(httpReq, resp)

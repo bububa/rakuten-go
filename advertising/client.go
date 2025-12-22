@@ -17,7 +17,7 @@ func (c *Client) TokenKey() string {
 	buf.WriteString(c.AppID())
 	buf.WriteByte(':')
 	buf.WriteString(c.Secret())
-	return base64.StdEncoding.EncodeToString(buf.Bytes())
+	return util.StringsJoin("Bearer ", base64.StdEncoding.EncodeToString(buf.Bytes()))
 }
 
 // NewClient returns a new SDKClient for Rakuten Advertisering

@@ -1,4 +1,4 @@
-package webservice
+package ichiba
 
 type BaseRequest struct {
 	// ApplicationID アプリケーションID
