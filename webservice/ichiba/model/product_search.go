@@ -3,12 +3,12 @@ package model
 import (
 	"github.com/bububa/rakuten-go/model"
 	"github.com/bububa/rakuten-go/util/query"
-	"github.com/bububa/rakuten-go/webservice"
+	"github.com/bububa/rakuten-go/webservice/ichiba"
 )
 
 // ProductSearchRequest 商品価格ナビ製品検索 API Request
 type ProductSearchRequest struct {
-	webservice.BaseRequest
+	ichiba.BaseRequest
 	// Keyword 	検索キーワード
 	// UTF-8でURLエンコードした文字列
 	// (*1)検索キーワード、ジャンルIDのいずれかが指定されていることが必須です。

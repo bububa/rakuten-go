@@ -1,4 +1,4 @@
-package webservice
+package ichiba
 
 const (
 	// BaseURL 默认APIgateway

@@ -3,12 +3,12 @@ package model
 import (
 	"github.com/bububa/rakuten-go/model"
 	"github.com/bububa/rakuten-go/util/query"
-	"github.com/bububa/rakuten-go/webservice"
+	"github.com/bububa/rakuten-go/webservice/ichiba"
 )
 
 // TagSearchRequest Rakuten Tag Search API Request
 type TagSearchRequest struct {
-	webservice.BaseRequest
+	ichiba.BaseRequest
 	// TagID tag id
 	// Tag IDs can be obtained from the Rakuten Ichiba product search API and Rakuten Ichiba genre search API.
 	// 0 cannot be specified.

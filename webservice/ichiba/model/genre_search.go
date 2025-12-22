@@ -3,12 +3,12 @@ package model
 import (
 	"github.com/bububa/rakuten-go/model"
 	"github.com/bububa/rakuten-go/util/query"
-	"github.com/bububa/rakuten-go/webservice"
+	"github.com/bububa/rakuten-go/webservice/ichiba"
 )
 
 // GenreSearchRequest Ichiba Genre Search API Request
 type GenreSearchRequest struct {
-	webservice.BaseRequest
+	ichiba.BaseRequest
 	// GenreID Use genreId=0 to search from the genre root
 	GenreID int64 `json:"genreId,omitempty"`
 	// GenrePath genre path

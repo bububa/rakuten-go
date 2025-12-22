@@ -3,12 +3,12 @@ package model
 import (
 	"github.com/bububa/rakuten-go/model"
 	"github.com/bububa/rakuten-go/util/query"
-	"github.com/bububa/rakuten-go/webservice"
+	"github.com/bububa/rakuten-go/webservice/ichiba"
 )
 
 // ItemSearchRequest Ichiba Item Search API Request
 type ItemSearchRequest struct {
-	webservice.BaseRequest
+	ichiba.BaseRequest
 	// Keyword UTF-8 URL encoded string
 	// The keyword parameter can have a maximum length of 128 single byte characters
 	// The keyword parameter is delimited with single byte space characters. This defaults to an AND operation including all the keywords. To use OR instead set the orFlag to 1.
@@ -337,7 +337,7 @@ type Item struct {
 	// *asurakuFlag must be 1 for this to be returned.
 	AsurakuArea string `json:"asurakuArea,omitempty"`
 	// AffiliateRate Affiliate rate
-	AffiliateRate int `json:"affiliateRate"`
+	AffiliateRate float64 `json:"affiliateRate,omitempty"`
 	// StartTime sale start time
 	// Only when a time limited sale has been set.
 	// (format is "YYYY-MM-DD HH:MM")

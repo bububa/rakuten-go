@@ -158,6 +158,11 @@ const (
 	dateFormat = "2006-01-02 15:04:05"
 )
 
+var (
+	ZeroTime     time.Time
+	tokyoZone, _ = time.LoadLocation("Asia/Tokyo")
+)
+
 type DateTime time.Time
 
 func (d DateTime) IsZero() bool {
@@ -191,6 +196,9 @@ func (d *DateTime) UnmarshalJSON(data []byte) error {
 			}
 			return nil
 		}
+	} else if len(s) == 0 {
+		*d = DateTime(ZeroTime.UTC())
+		return nil
 	}
 	// Try to parse as a string (YYYY-MM-DD HH:MM:SS)
 	// Remove quotes if present
@@ -198,11 +206,15 @@ func (d *DateTime) UnmarshalJSON(data []byte) error {
 		s = strings.Trim(s, `"`)
 	}
 	layout := dateFormat
-	if strings.Contains(s, "Z") {
+	if strings.Contains(s, "T") && strings.Contains(s, "Z") {
 		layout = time.RFC3339
+	} else if strings.Contains(s, "T") && (strings.Contains(s, "+") || strings.Contains(s, "-")) {
+		layout = "2006-01-02T15:04:05-0700"
+	} else if !strings.Contains(s, ":") {
+		layout = time.DateOnly
 	}
 
-	parsed, err := time.ParseInLocation(layout, s, time.UTC)
+	parsed, err := time.ParseInLocation(layout, s, tokyoZone)
 	if err != nil {
 		return err
 	}
