@@ -9,9 +9,9 @@ import (
 )
 
 // Get 商品管理番号を指定し、商品情報を取得
-func Get(ctx context.Context, clt *rms.Client, req *item20.GetRequest) (*item20.Item, error) {
+func Get(ctx context.Context, clt *rms.Client, itemManageNumber string) (*item20.Item, error) {
 	var resp item20.GetResponse
-	if err := clt.Get(ctx, util.StringsJoin("/es/2.0/items/manage-numbers/", req.ManageNumber), req, &resp, clt.TokenKey()); err != nil {
+	if err := clt.Get(ctx, util.StringsJoin("/es/2.0/items/manage-numbers/", itemManageNumber), nil, &resp, clt.TokenKey()); err != nil {
 		return nil, err
 	}
 	return &resp.Item, nil

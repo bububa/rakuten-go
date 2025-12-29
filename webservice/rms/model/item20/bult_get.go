@@ -21,5 +21,5 @@ func (r *BulkGetRequest) Encode() []byte {
 // BulkGetResponse は楽天ペイ受注APIの注文情報取得時の検索条件です API Response
 type BulkGetResponse struct {
 	rmsModel.BaseResponse
-	Items []Item `json:"items,omitempty"`
+	Result []Item `json:"result,omitempty"`
 }

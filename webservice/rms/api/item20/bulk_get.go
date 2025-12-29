@@ -13,5 +13,5 @@ func BulkGet(ctx context.Context, clt *rms.Client, req *item20.BulkGetRequest) (
 	if err := clt.Post(ctx, "/es/2.0/items/bulk_get", req, &resp, clt.TokenKey()); err != nil {
 		return nil, err
 	}
-	return resp.Items, nil
+	return resp.Result, nil
 }
