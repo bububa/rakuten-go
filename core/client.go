@@ -99,7 +99,7 @@ func (c *SDKClient) Copy() *SDKClient {
 
 // Post post api
 func (c *SDKClient) Post(ctx context.Context, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
-	return c.post(ctx, c.baseURL, gw, req, resp, accessToken)
+	return c.doBodyRequest(ctx, http.MethodPost, c.baseURL, gw, req, resp, accessToken)
 }
 
 // Get get api
@@ -114,66 +114,17 @@ func (c *SDKClient) Upload(ctx context.Context, gw string, req model.UploadReque
 
 // Put post api
 func (c *SDKClient) Put(ctx context.Context, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
-	return c.put(ctx, c.baseURL, gw, req, resp, accessToken)
+	return c.doBodyRequest(ctx, http.MethodPut, c.baseURL, gw, req, resp, accessToken)
+}
+
+// Patch post api
+func (c *SDKClient) Patch(ctx context.Context, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
+	return c.doBodyRequest(ctx, http.MethodPatch, c.baseURL, gw, req, resp, accessToken)
 }
 
 // Delete post api
 func (c *SDKClient) Delete(ctx context.Context, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
-	return c.delete(ctx, c.baseURL, gw, req, resp, accessToken)
-}
-
-func (c *SDKClient) post(ctx context.Context, base string, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
-	var reqBytes []byte
-	if req != nil {
-		reqBytes = req.Encode()
-	}
-	reqURL := util.StringsJoin(base, gw)
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, reqURL, bytes.NewReader(reqBytes))
-	if err != nil {
-		return err
-	}
-	httpReq.Header.Add("Content-Type", req.ContentType())
-	if accessToken != "" {
-		httpReq.Header.Add("Authorization", accessToken)
-	}
-	debug.PrintJSONRequest("POST", reqURL, httpReq.Header, reqBytes, c.debug)
-	return c.fetch(httpReq, resp)
-}
-
-func (c *SDKClient) put(ctx context.Context, base string, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
-	var reqBytes []byte
-	if req != nil {
-		reqBytes = req.Encode()
-	}
-	reqURL := util.StringsJoin(base, gw)
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPut, reqURL, bytes.NewReader(reqBytes))
-	if err != nil {
-		return err
-	}
-	httpReq.Header.Add("Content-Type", req.ContentType())
-	if accessToken != "" {
-		httpReq.Header.Add("Authorization", accessToken)
-	}
-	debug.PrintJSONRequest("PUT", reqURL, httpReq.Header, reqBytes, c.debug)
-	return c.fetch(httpReq, resp)
-}
-
-func (c *SDKClient) delete(ctx context.Context, base string, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
-	var reqBytes []byte
-	if req != nil {
-		reqBytes = req.Encode()
-	}
-	reqURL := util.StringsJoin(base, gw)
-	httpReq, err := http.NewRequestWithContext(ctx, http.MethodDelete, reqURL, bytes.NewReader(reqBytes))
-	if err != nil {
-		return err
-	}
-	httpReq.Header.Add("Content-Type", req.ContentType())
-	if accessToken != "" {
-		httpReq.Header.Add("Authorization", accessToken)
-	}
-	debug.PrintJSONRequest("PUT", reqURL, httpReq.Header, reqBytes, c.debug)
-	return c.fetch(httpReq, resp)
+	return c.doBodyRequest(ctx, http.MethodDelete, c.baseURL, gw, req, resp, accessToken)
 }
 
 func (c *SDKClient) get(ctx context.Context, base string, gw string, req model.GetRequest, resp model.Response, accessToken string) error {
@@ -192,6 +143,24 @@ func (c *SDKClient) get(ctx context.Context, base string, gw string, req model.G
 	if accessToken != "" {
 		httpReq.Header.Add("Authorization", accessToken)
 	}
+	return c.fetch(httpReq, resp)
+}
+
+func (c *SDKClient) doBodyRequest(ctx context.Context, method string, base string, gw string, req model.PostRequest, resp model.Response, accessToken string) error {
+	var reqBytes []byte
+	if req != nil {
+		reqBytes = req.Encode()
+	}
+	reqURL := util.StringsJoin(base, gw)
+	httpReq, err := http.NewRequestWithContext(ctx, method, reqURL, bytes.NewReader(reqBytes))
+	if err != nil {
+		return err
+	}
+	httpReq.Header.Add("Content-Type", req.ContentType())
+	if accessToken != "" {
+		httpReq.Header.Add("Authorization", accessToken)
+	}
+	debug.PrintJSONRequest(method, reqURL, httpReq.Header, reqBytes, c.debug)
 	return c.fetch(httpReq, resp)
 }
 
