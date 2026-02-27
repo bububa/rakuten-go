@@ -157,7 +157,7 @@ type SearchRequest struct {
 	OverseasFlag *int `json:"overseasFlag,omitempty"`
 
 	// SearchOrderPaginationRequestModel はページングに関する情報です。
-	PaginationRequestModel *rmsModel.Pagination `json:"PaginationRequestModel,omitempty"`
+	PaginationRequestModel *rmsModel.PaginationRequest `json:"PaginationRequestModel,omitempty"`
 }
 
 // Encode implements PostRequest interface
@@ -175,5 +175,5 @@ type SearchResponse struct {
 	OrderNumberList []string `json:"orderNumberList"`
 
 	// SearchOrderPaginationResponseModel はページングレスポンスモデルです。ページングに関する情報を取得することができます。
-	PaginationResponseModel *rmsModel.Pagination `json:"PaginationResponseModel,omitempty"`
+	PaginationResponseModel *rmsModel.PaginationResponse `json:"PaginationResponseModel,omitempty"`
 }
