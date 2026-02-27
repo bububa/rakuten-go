@@ -28,8 +28,8 @@ type Sort struct {
 	SortDirection int `json:"sortDirection,omitempty"`
 }
 
-// Pagination は楽天ペイ受注APIで注文検索の検索条件のうち、ページングに関する条件です。
-type Pagination struct {
+// PaginationRequest は楽天ペイ受注APIで注文検索の検索条件のうち、ページングに関する条件です。
+type PaginationRequest struct {
 	// RequestRecordsAmount は1ページあたりの取得結果数です。最大1,000件まで取得可能です。
 	RequestRecordsAmount int `json:"requestRecordsAmount,omitempty"`
 
@@ -38,4 +38,15 @@ type Pagination struct {
 
 	// SortModelList はソート条件です。
 	SortModelList []Sort `json:"SortModelList,omitempty"`
+}
+
+// PaginationResponse pagination in response
+type PaginationResponse struct {
+	// TotalRecordsAmount 総結果数
+	TotalRecordsAmount int `json:"totalRecordsAmount,omitempty"`
+	// TotalPages 総ページ数
+	TotalPages int `json:"totalPages,omitempty"`
+	// RequestPage リクエストページ番号
+	// リクエストされたページ数
+	RequestPage int `json:"requestPage,omitempty"`
 }
